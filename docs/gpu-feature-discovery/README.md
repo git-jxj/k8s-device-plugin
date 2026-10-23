@@ -347,22 +347,23 @@ Download the source code:
 
 ```shell
 git clone https://github.com/NVIDIA/k8s-device-plugin
+cd k8s-device-plugin
 ```
 
-Get dependencies:
+Build the GFD binary using the vendored dependencies:
 
 ```shell
-make vendor
+make cmd-gpu-feature-discovery
 ```
 
-Build it:
+On a machine with the NVIDIA driver installed, run it once and write the
+labels to a local file:
 
 ```shell
-make build
+./gpu-feature-discovery --oneshot \
+  --use-node-feature-api=false \
+  --output-file="$(pwd)/gfd"
 ```
 
-Run it:
-
-```shell
-./gpu-feature-discovery --output=$(pwd)/gfd
-```
+Disabling the NodeFeature API selects file output and avoids requiring a
+Kubernetes cluster for this local run.
